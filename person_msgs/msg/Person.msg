@@ -4,7 +4,7 @@ std_msgs/Header header
 float32 confidence
 
 int32 source
-int32 inFieldOfView
+int32 in_field_of_view
 
 #Pose
 float32 x

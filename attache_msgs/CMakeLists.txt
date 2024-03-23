@@ -1,14 +1,28 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(attache_msgs)
 
-find_package(catkin REQUIRED COMPONENTS message_generation)
+# Default to C99
+if(NOT CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 99)
+endif()
 
-add_service_files(DIRECTORY srv
-  FILES
-  Attachment.srv
-  JointControl.srv
-  JointInformation.srv)
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
 
-generate_messages()
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-catkin_package(CATKIN_DEPENDS message_runtime)
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  srv/Attachment.srv
+  srv/JointControl.srv
+  srv/JointInformation.srv
+)
+
+ament_package()

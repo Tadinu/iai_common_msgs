@@ -1,6 +1,6 @@
 std_msgs/Header header
 
-int32 numberOfJoints
-float32[] joints2D
+int32 number_of_joints
+float32[] joints_2d
 
 

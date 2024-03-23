@@ -1,32 +1,39 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(iai_control_msgs)
 
-find_package(catkin REQUIRED COMPONENTS
-    message_generation std_msgs geometry_msgs actionlib_msgs
-    )
+# Default to C99
+if(NOT CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 99)
+endif()
 
-add_message_files(
-  FILES
-  MultiJointVelocityCommand.msg
-  MultiJointVelocityImpedanceCommand.msg
-  MultiJointVelocityImpedanceState.msg
-  CartGoal.msg
-  CartState.msg
-  JointLimits.msg
-  PowerState.msg
-  pose_w_joints.msg)
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(action_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
 
-add_action_files(
-  DIRECTORY action
-  FILES PTU.action
+## Generate messages in the 'msg' folder
+rosidl_generate_interfaces(${PROJECT_NAME}
+  msg/MultiJointVelocityCommand.msg
+  msg/MultiJointVelocityImpedanceCommand.msg
+  msg/MultiJointVelocityImpedanceState.msg
+  msg/CartGoal.msg
+  msg/CartState.msg
+  msg/JointLimits.msg
+  msg/PowerState.msg
+  msg/PoseWJoints.msg
+  action/PTU.action
 )
 
-generate_messages(
-  DEPENDENCIES
-    std_msgs
-    geometry_msgs
-    actionlib_msgs)
-
-catkin_package(
-  CATKIN_DEPENDS std_msgs geometry_msgs actionlib_msgs)
+ament_package()

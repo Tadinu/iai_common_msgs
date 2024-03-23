@@ -1,30 +1,39 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(iai_kinematics_msgs)
 
-find_package (catkin REQUIRED COMPONENTS geometry_msgs sensor_msgs std_msgs message_generation)
+# Default to C99
+if(NOT CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 99)
+endif()
 
-add_message_files(
-  FILES
-  ErrorCodes.msg
-  JointLimits.msg
-  KDLWeights.msg
-  KinematicSolverInfo.msg
-  MultiDOFJointState.msg
-  PositionIKRequest.msg
-  RobotState.msg)
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
 
-add_service_files(
-  FILES
-  GetKinematicSolverInfo.srv
-  GetPositionFK.srv
-  GetPositionIK.srv
-  GetWeightedIK.srv)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-generate_messages(
-  DEPENDENCIES
-  geometry_msgs
-  sensor_msgs
-  std_msgs)
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
-catkin_package(
-  CATKIN_DEPENDS geometry_msgs sensor_msgs std_msgs message_runtime)
+## Generate messages in the 'msg' folder
+rosidl_generate_interfaces(${PROJECT_NAME}
+  msg/ErrorCodes.msg
+  msg/JointLimits.msg
+  msg/KDLWeights.msg
+  msg/KinematicSolverInfo.msg
+  msg/MultiDOFJointState.msg
+  msg/PositionIKRequest.msg
+  msg/RobotState.msg
+  srv/GetKinematicSolverInfo.srv
+  srv/GetPositionFK.srv
+  srv/GetPositionIK.srv
+  srv/GetWeightedIK.srv
+)
+ament_package()

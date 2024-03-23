@@ -4,8 +4,8 @@ std_msgs/Header header
 geometry_msgs/Vector3 start
 
 #Vector direction
-geometry_msgs/Vector3 pointTo
+geometry_msgs/Vector3 point_to
 
-int8 leftHand
-int8 rightHand
+int8 left_hand
+int8 right_hand
 

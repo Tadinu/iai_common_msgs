@@ -2,7 +2,7 @@
 # The inverse kinematics request
 iai_kinematics_msgs/PositionIKRequest ik_request
 # Maximum allowed time for IK calculation
-duration timeout
+int32 timeout
 ---
 # The returned solution 
 # (in the same order as the list of joints specified in the IKRequest message)

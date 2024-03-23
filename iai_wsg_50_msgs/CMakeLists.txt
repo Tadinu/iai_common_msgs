@@ -1,17 +1,36 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(iai_wsg_50_msgs)
 
-find_package(catkin REQUIRED COMPONENTS
-  message_generation
-  std_msgs)
+# Default to C99
+if(NOT CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 99)
+endif()
 
-add_message_files(FILES Cmd.msg Status.msg PositionCmd.msg SpeedCmd.msg)
-add_service_files(FILES Conf.srv Incr.srv Move.srv)
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
 
-generate_messages(DEPENDENCIES std_msgs)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-catkin_package(
-  CATKIN_DEPENDS message_runtime std_msgs)
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
-include_directories(
-  ${catkin_INCLUDE_DIRS})
+rosidl_generate_interfaces(${PROJECT_NAME}
+  msg/Cmd.msg
+  msg/Status.msg
+  msg/PositionCmd.msg
+  msg/SpeedCmd.msg
+  srv/Conf.srv
+  srv/Incr.srv
+  srv/Move.srv
+  DEPENDENCIES
+  builtin_interfaces
+  std_msgs
+)
+ament_package()
+
